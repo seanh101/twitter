@@ -4,7 +4,11 @@ const Note = require('../../models/note'); // Adjust the path as necessary
 async function create(req, res) {
     req.body.user = req.user._id;
     try {
-        const note = await Note.create(req.body);
+       // Inside your create function in the notes controller
+console.log('Creating note with data:', req.body);
+const note = await Note.create(req.body);
+console.log('Note created:', note);
+
         res.status(201).json(note);
     } catch (err) {
         res.status(400).json(err);
@@ -24,7 +28,11 @@ async function index(req, res) {
 // Get a single note
 async function show(req, res) {
     try {
-        const note = await Note.findById(req.params.id).populate('user').populate('comments.user');
+        // Inside your show function in the notes controller
+console.log('Fetching note with ID:', req.params.id);
+const note = await Note.findById(req.params.id).populate('user').populate('comments.user');
+console.log('Note fetched:', note);
+
         if (!note) return res.status(404).json({error: 'Note not found'});
         res.status(200).json(note);
     } catch (err) {
@@ -44,7 +52,7 @@ async function update(req, res) {
 }
 
 // Delete a note
-async function remove(req, res) {
+async function noteDelete(req, res) {
     try {
         const note = await Note.findOneAndDelete({_id: req.params.id, user: req.user._id});
         if (!note) return res.status(404).json({error: 'Note not found or user not authorized'});
@@ -72,6 +80,6 @@ module.exports = {
     index,
     show,
     update,
-    remove, // 'delete' is a reserved word in JavaScript, so 'remove' is often used
+    noteDelete, 
     addComment
 };
