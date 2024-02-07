@@ -17,4 +17,6 @@ router.delete('/:id', notesCtrl.noteDelete);
 router.post('/', notesCtrl.create);
 router.get('/', notesCtrl.index);
 
+router.post('/:noteId/comments', notesCtrl.addComment);
+
 module.exports = router;

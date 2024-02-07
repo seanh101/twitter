@@ -1,0 +1,57 @@
+.note-creation-container {
+    max-width: 600px;
+    margin: 20px auto;
+    padding: 20px;
+    font-family: 'Arial', sans-serif;
+    background-color: #f5f8fa;
+    border: 1px solid #e1e8ed;
+    border-radius: 10px;
+  }
+  
+  .note-creation-container h1 {
+    color: #14171a;
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
+  
+  textarea {
+    width: 500px;
+    height: 100px;
+    padding: 12px 20px;
+    box-sizing: border-box;
+    border: 2px solid #e1e8ed;
+    border-radius: 4px;
+    background-color: #ffffff;
+    resize: none;
+    font-size: 16px;
+    color: #14171a;
+    margin-bottom: 10px;
+    align-items: center;
+    margin-left: 20px;
+  }
+  
+  textarea::placeholder {
+    color: #657786;
+  }
+  
+  button {
+    background-color: #1da1f2;
+    color: #ffffff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 16px;
+    text-align: center;
+  }
+  
+  button:hover {
+    background-color: #1991db;
+  }
+  
+  .error {
+    color: #d9534f;
+    margin-top: 10px;
+  }
+  

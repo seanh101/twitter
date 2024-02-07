@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getToken } from '../../utilities/users-service';
+import './NoteCreationPage.css'; 
 
 export default function NoteCreationPage() {
     const [noteText, setNoteText] = useState('');
@@ -31,7 +32,7 @@ export default function NoteCreationPage() {
     }
 
     return (
-        <div>
+        <div className="note-creation-container">
             <h1>Create a Note</h1>
             <form onSubmit={handleSubmit}>
                 <textarea

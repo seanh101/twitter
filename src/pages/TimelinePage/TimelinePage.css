@@ -1,0 +1,64 @@
+/* TimelinePage.css content */
+.timeline-container {
+    max-width: 600px;
+    margin: auto;
+}
+
+.tweet-container {
+    padding: 10px;
+    border-bottom: 1px solid #e1e8ed;
+}
+
+.tweet-content {
+    margin-bottom: 10px;
+}
+
+.comment-section {
+    background-color: #f5f8fa;
+    padding: 10px;
+}
+
+.comment {
+    display: flex;
+    flex-direction: column;
+    padding: 5px 0;
+}
+
+.comment-header {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.9em;
+    color: #657786;
+}
+
+.comment-username {
+    font-weight: bold;
+}
+
+.comment-body {
+    padding: 5px 0;
+}
+
+.comment-input {
+    display: flex;
+    margin-top: 10px;
+}
+
+.comment-input input {
+    flex: 1;
+    padding: 8px;
+    margin-right: 10px;
+    border: 1px solid #e1e8ed;
+    border-radius: 4px;
+}
+
+.comment-input button {
+    padding: 8px 16px;
+    background-color: #1da1f2;
+    border: none;
+    border-radius: 4px;
+    color: white;
+    cursor: pointer;
+}
+
+/* Add other styles as needed */
