@@ -1,60 +1,77 @@
-const note = require('../../models/note');
+const Note = require('../../models/note'); // Adjust the path as necessary
 
-function index(req, res) {
-    NotesPage.find({ user: req.user._id})
-    .then(notes => res.json(notes))
-    .catch(err => res.json(error))
-}
-
-function show(req, res) {
-    Note.findById(req.params.id)
-        .then(note => {
-            if (!note) throw new Error('No document is found matching that id')
-            return note
-        })
-        .then(note => res.json(note))
-        .catch(error => res.json(error))
-}
-
-function create(req, res) {
-    req.body.user = req.user._id
-    console.log(req.body)
-    Note.create(req.body)
-        .then(note => res.json(note))
-        .catch(error => res.json(error))
-}
-
-function update(req, res) {
-    Note.findById(req.params.id)
-        .then(note => {
-            if (!note) throw new Error('No document is found matching that id')
-            return note
-        })
-        .then(note => {
-            note.text = req.body.text
-            return note.save()
-        })
-        .then(note => res.json(note))
-        .catch(error => res.json(error))
-}
-
-function noteDelete(req, res) {
-    Note.findById(req.params.id)
-        .then(note => {
-            if (!note) throw new Error('No document is found matching that id')
-            return note
-        })
-        .then(note => {
-            return note.deleteOne()
-        })
-        .then(() => res.json('Note removed'))
-        .catch(error => res.json(error))
+// Post a new note
+async function create(req, res) {
+    req.body.user = req.user._id;
+    try {
+        const note = await Note.create(req.body);
+        res.status(201).json(note);
+    } catch (err) {
+        res.status(400).json(err);
     }
+}
+
+// Get all notes
+async function index(req, res) {
+    try {
+        const notes = await Note.find({}).populate('user').populate('comments.user');
+        res.status(200).json(notes);
+    } catch (err) {
+        res.status(400).json(err);
+    }
+}
+
+// Get a single note
+async function show(req, res) {
+    try {
+        const note = await Note.findById(req.params.id).populate('user').populate('comments.user');
+        if (!note) return res.status(404).json({error: 'Note not found'});
+        res.status(200).json(note);
+    } catch (err) {
+        res.status(400).json(err);
+    }
+}
+
+// Update a note
+async function update(req, res) {
+    try {
+        const note = await Note.findOneAndUpdate({_id: req.params.id, user: req.user._id}, req.body, {new: true});
+        if (!note) return res.status(404).json({error: 'Note not found or user not authorized'});
+        res.status(200).json(note);
+    } catch (err) {
+        res.status(400).json(err);
+    }
+}
+
+// Delete a note
+async function remove(req, res) {
+    try {
+        const note = await Note.findOneAndDelete({_id: req.params.id, user: req.user._id});
+        if (!note) return res.status(404).json({error: 'Note not found or user not authorized'});
+        res.status(200).json({message: 'Note successfully deleted'});
+    } catch (err) {
+        res.status(400).json(err);
+    }
+}
+
+// Add a comment to a note
+async function addComment(req, res) {
+    try {
+        const note = await Note.findById(req.params.noteId);
+        if (!note) return res.status(404).json({error: 'Note not found'});
+        note.comments.push({ text: req.body.text, user: req.user._id });
+        await note.save();
+        res.status(201).json(note);
+    } catch (err) {
+        res.status(400).json(err);
+    }
+}
 
 module.exports = {
+    create,
     index,
     show,
-    create,
     update,
-    noteDelete
-}
+    remove, // 'delete' is a reserved word in JavaScript, so 'remove' is often used
+    addComment
+};
